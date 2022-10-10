@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Telefonkönyv</title>
+</head>
+<body>
+    <div class="bg-white container" ng-app="mainCtrl" ng-controller="phones">
+        <header><h1>Angular - Telefonkönyv</h1></header>
+        <main>
+            <section>
+                <h5 class="text-muted">Új bejegyzés</h3>
+                <form>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Név</label>
+                        <input type="text" name="name" class="form-control" ng-model="newdata.name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-Mail</label>
+                        <input type="email" name="email" class="form-control" ng-model="newdata.email">
+                    </div>
+                    <div class="mb-2">
+                        <label for="department" class="form-label">Kategória</label>
+                        <select name="department" class="form-select" ng-model="newdata.category">
+                            <option selected disabled>Válasszon</option>
+                            <option value="{{category.value}}" ng-repeat="category in categories">{{category.name}}</option>
+                        </select>
+                    </div>
+                    <input type="submit" class="btn btn-outline-success mb-3" value="Hozzáad" ng-click="Add()">
+                </form>
+            </section>
+            <section>
+                <h5 class="text-muted">Meglévő Bejegyzések</h5>
+                <div class="input-group mb-3">
+                    <label for="search" class="input-group-text"><i class="bi-search-heart"></i></label>
+                    <input type="text" class="form-control" ng-model="searchField" name="">
+                </div>
+                <p ng-if="adatok==null" class="text-danger">Jelenleg nincs még bejegyzés!</p>
+                <div class="flex">
+                    <div ng-repeat="cat in categories">
+                        <h6>{{cat.name}}</h6>
+                        <div class="card px-3 pt-3 mb-3" ng-repeat="adat in filtered = ( adatok | filter:searchField )" ng-if="$parent.cat.value==adat.category">
+                            <h5 class="card-title">{{adat.name}}</h5>
+                            <div class="card-body p-0 pb-2">
+                                <ul>
+                                    <li>{{adat.phone}}</li>
+                                    <li>{{adat.category}}</li>
+                                </ul>
+                                <button type="button" ng-click="Delete(adat.id)" class="btn btn-danger"><i class="bi-trash-fill"></i>Töröl</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/class.js"></script>
+    <script src="./js/app.js"></script>
+</body>
+</html>
